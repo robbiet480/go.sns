@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/robbiet480/go.sns.svg)](https://travis-ci.org/robbiet480/go.sns)
+[![GoDoc](https://godoc.org/github.com/robbiet480/go.sns?status.svg)](https://godoc.org/github.com/robbiet480/go.sns)
+
 # go.sns
 A helper library for receiving [Amazon AWS SNS](https://aws.amazon.com/sns/) [HTTP(S) notifications](https://docs.aws.amazon.com/sns/latest/dg/SendMessageToHttp.html).
 
