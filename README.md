@@ -66,6 +66,11 @@ if err != nil {
 fmt.Printf("unsubscriptionResponse %+v", unsubscriptionResponse)
 ```
 
+## Thanks
+This library was based off work by [lazywei](https://github.com/lazywei), found on [this Stack Overflow question](http://stackoverflow.com/q/20014908/486182) and code written by [syama666](https://github.com/syama666).
+
+Thanks also goes to [xibz](https://github.com/xibz) for helping me work out some of the low level certificate/SHA1WithRSA stuff in this [issue on aws-sdk-go](https://github.com/aws/aws-sdk-go/issues/567).
+
 ## Contributing
 Fork, edit, write & run tests, submit PR, success!
 
