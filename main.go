@@ -8,10 +8,16 @@ import (
 	"encoding/pem"
 	"encoding/xml"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"reflect"
+	"regexp"
 )
+
+// https://github.com/robbiet480/go.sns/issues/2
+var hostPattern = regexp.MustCompile(`^sns\.[a-zA-Z0-9\-]{3,}\.amazonaws\.com(\.cn)?$`)
 
 // Payload contains a single POST from SNS
 type Payload struct {
@@ -63,6 +69,15 @@ func (payload *Payload) VerifyPayload() error {
 	payloadSignature, err := base64.StdEncoding.DecodeString(payload.Signature)
 	if err != nil {
 		return err
+	}
+
+	certURL, err := url.Parse(payload.SigningCertURL)
+	if err != nil {
+		return err
+	}
+
+	if !hostPattern.Match([]byte(certURL.Host)) {
+		return fmt.Errorf("certificate is located on an invalid domain")
 	}
 
 	resp, err := http.Get(payload.SigningCertURL)
