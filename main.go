@@ -76,6 +76,10 @@ func (payload *Payload) VerifyPayload() error {
 		return err
 	}
 
+	if certURL.Scheme != "https" {
+		return fmt.Errorf("url should be using https")
+	}
+
 	if !hostPattern.Match([]byte(certURL.Host)) {
 		return fmt.Errorf("certificate is located on an invalid domain")
 	}
