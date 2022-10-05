@@ -64,6 +64,14 @@ func (payload *Payload) BuildSignature() []byte {
 	return builtSignature.Bytes()
 }
 
+// SignatureAlgorithm returns properly Algorithm for AWS Signature Version.
+func (payload *Payload) SignatureAlgorithm() x509.SignatureAlgorithm {
+	if payload.SignatureVersion == "2" {
+		return x509.SHA256WithRSA
+	}
+	return x509.SHA1WithRSA
+}
+
 // VerifyPayload will verify that a payload came from SNS
 func (payload *Payload) VerifyPayload() error {
 	payloadSignature, err := base64.StdEncoding.DecodeString(payload.Signature)
@@ -106,7 +114,7 @@ func (payload *Payload) VerifyPayload() error {
 		return err
 	}
 
-	return parsedCertificate.CheckSignature(x509.SHA1WithRSA, payload.BuildSignature(), payloadSignature)
+	return parsedCertificate.CheckSignature(payload.SignatureAlgorithm(), payload.BuildSignature(), payloadSignature)
 }
 
 // Subscribe will use the SubscribeURL in a payload to confirm a subscription and return a ConfirmSubscriptionResponse
