@@ -114,6 +114,10 @@ func (payload *Payload) VerifyPayload() error {
 		return err
 	}
 
+	if _, err := parsedCertificate.Verify(x509.VerifyOptions{}); err != nil {
+		return err
+	}
+
 	return parsedCertificate.CheckSignature(payload.SignatureAlgorithm(), payload.BuildSignature(), payloadSignature)
 }
 
